@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Starlink Data Bundles | Kenya</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #daf1da;
+            color: #0a240a;
+            line-height: 1.4;
+            font-size: 0.875rem;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* main container - tighter, no wasted space */
+        .container {
+            max-width: 100%;
+            padding: 0.6rem 0.5rem;
+        }
+
+        /* header - deeper green */
+        .top-bar {
+            background: #1a4f1a;
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 0.7rem 1rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #2d6a2d;
+            box-shadow: 0 4px 12px rgba(0, 40, 0, 0.2);
+        }
+
+        .logo h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+        }
+
+        .logo span {
+            font-size: 0.7rem;
+            color: #c0e0c0;
+            display: block;
+            font-weight: 500;
+            margin-top: 0;
+        }
+
+        .status-chip {
+            background: #2d7a2d;
+            border-radius: 30px;
+            padding: 0.4rem 0.9rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            border: 1px solid #4fa04f;
+        }
+
+        /* hero card - more green */
+        .quick-panel {
+            background: #1d541d;
+            border-radius: 20px;
+            padding: 1.2rem 1.2rem;
+            margin-bottom: 1rem;
+            border: 1px solid #2d6a2d;
+            box-shadow: 0 6px 0 #0f3a0f;
+        }
+
+        .quick-panel h2 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .quick-panel p {
+            color: #c8e6c8;
+            font-size: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .tag-cloud {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .tag-new {
+            background: #2d7a2d;
+            border-radius: 30px;
+            padding: 0.3rem 0.9rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+            border: 1px solid #4fa04f;
+        }
+
+        /* category tabs - pill style - now with active indicator */
+        .scroll-tabs {
+            display: flex;
+            gap: 0.4rem;
+            overflow-x: auto;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.2rem;
+            scrollbar-width: none;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: #daf1da;
+            padding-top: 0.3rem;
+            padding-bottom: 0.5rem;
+        }
+        .scroll-tabs::-webkit-scrollbar { display: none; }
+
+        .tab-pill {
+            background: #e6f3e6;
+            border: 1px solid #2d7a2d;
+            border-radius: 30px;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1d541d;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: 0.1s;
+            flex-shrink: 0;
+        }
+
+        .tab-pill.active {
+            background: #1d541d;
+            border-color: #1d541d;
+            color: white;
+        }
+
+        /* bundle sections with smooth scroll target */
+        .category-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            scroll-margin-top: 60px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 0.2rem;
+        }
+
+        .category-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1d541d;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .category-title i {
+            color: #2d7a2d;
+            font-size: 0.9rem;
+        }
+
+        .category-subtitle {
+            font-size: 0.7rem;
+            color: #1d541d;
+            background: #c8e6c8;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+
+        /* card grid - exactly 2 columns */
+        .category-bundles {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+        }
+
+        /* MORE SQUARISH CARDS - 12px radius */
+        .bundle-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 0.9rem 0.7rem;
+            border: 1px solid #2d7a2d;
+            box-shadow: 0 3px 8px rgba(0, 40, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .bundle-card.popular { border-left: 5px solid #f4b740; }
+        .bundle-card.featured { border-left: 5px solid #1d541d; }
+
+        /* COLORFUL BADGES - bright and eye-catching */
+        .bundle-badge {
+            position: absolute;
+            top: 0.4rem;
+            right: 0.4rem;
+            font-size: 0.55rem;
+            font-weight: 800;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* POPULAR badge - vibrant orange */
+        .bundle-badge.popular-badge {
+            background: #ff8c42;
+            color: white;
+            border: 1px solid #e07a2c;
+        }
+
+        /* HOT badge - bright red */
+        .bundle-badge.hot-badge {
+            background: #e63946;
+            color: white;
+            border: 1px solid #c92a36;
+        }
+
+        /* VALUE badge - electric blue */
+        .bundle-badge.value-badge {
+            background: #4361ee;
+            color: white;
+            border: 1px solid #3651c9;
+        }
+
+        /* default badge (fallback) */
+        .bundle-badge:not(.popular-badge):not(.hot-badge):not(.value-badge) {
+            background: #1d541d;
+            color: white;
+        }
+
+        .bundle-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #0f3a0f;
+            margin-bottom: 0.15rem;
+            padding-right: 1.2rem;
+        }
+
+        .bundle-subtitle {
+            font-size: 0.65rem;
+            color: #2d7a2d;
+            margin-bottom: 0.6rem;
+            line-height: 1.2;
+        }
+
+        .bundle-details {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .bundle-price {
+            font-weight: 800;
+            color: #1d541d;
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+
+        .bundle-currency {
+            font-size: 0.6rem;
+            font-weight: 500;
+            color: #2d7a2d;
+        }
+
+        .bundle-buy-btn {
+            background: #1d541d;
+            border: none;
+            border-radius: 30px;
+            padding: 0.4rem 0.9rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: 0.1s;
+            border: 1px solid #2d7a2d;
+        }
+
+        .bundle-buy-btn:active {
+            background: #0f3a0f;
+        }
+
+        /* footer - more green */
+        .footer {
+            text-align: center;
+            padding: 1.2rem 0.2rem 0.3rem;
+            color: #1d541d;
+            font-size: 0.65rem;
+            border-top: 2px solid #2d7a2d;
+            margin-top: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+
+        .footer-logo {
+            font-weight: 700;
+            color: #1d541d;
+        }
+
+        /* COMPLETELY REVAMPED MODAL - MOBILE OPTIMIZED */
+        .swal2-popup {
+            border-radius: 16px !important;
+            padding: 1rem 0.8rem !important;
+            width: 94% !important;
+            max-width: 340px !important;
+            margin: 0 auto !important;
+            font-size: 0.8rem !important;
+        }
+
+        .swal2-title {
+            font-size: 1.1rem !important;
+            color: #1d541d !important;
+            padding: 0 !important;
+            margin-bottom: 0.5rem !important;
+        }
+
+        .swal2-html-container {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: visible !important;
+        }
+
+        /* modal inner content - tight and clean */
+        .modal-content {
+            text-align: left;
+            width: 100%;
+        }
+
+        .modal-bundle-name {
+            background: #e6f3e6;
+            padding: 0.5rem;
+            border-radius: 10px;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: #1d541d;
+            text-align: center;
+            font-size: 0.85rem;
+            border: 1px solid #2d7a2d;
+            word-break: break-word;
+        }
+
+        .input-wrapper {
+            margin-bottom: 0.8rem;
+        }
+
+        .input-label {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #1d541d;
+            margin-bottom: 0.25rem;
+        }
+
+        .phone-input-group {
+            display: flex;
+            border: 1.5px solid #2d7a2d;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .phone-prefix {
+            background: #e6f3e6;
+            padding: 0.6rem 0.7rem;
+            font-weight: 600;
+            color: #1d541d;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .phone-input {
+            border: none;
+            padding: 0.6rem 0.7rem;
+            width: 100%;
+            outline: none;
+            font-size: 0.85rem;
+        }
+
+        .phone-input::placeholder {
+            color: #a0b8a0;
+            font-size: 0.75rem;
+        }
+
+        .input-note {
+            font-size: 0.6rem;
+            color: #2d7a2d;
+            margin-top: 0.2rem;
+        }
+
+        .summary-box {
+            background: #e6f3e6;
+            border-radius: 12px;
+            padding: 0.6rem;
+            margin: 0.8rem 0;
+            border: 1px solid #2d7a2d;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .summary-row.total {
+            font-weight: 700;
+            color: #1d541d;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            padding-top: 0.3rem;
+            border-top: 1px dashed #2d7a2d;
+        }
+
+        .secure-note {
+            color: #2d7a2d;
+            font-size: 0.6rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.2rem;
+        }
+
+        .swal2-confirm {
+            background: #1d541d !important;
+            border-radius: 30px !important;
+            font-weight: 600 !important;
+            padding: 0.6rem 1.2rem !important;
+            font-size: 0.8rem !important;
+            margin: 0 !important;
+            border: 1px solid #2d7a2d !important;
+        }
+
+        .swal2-cancel {
+            background: #f0f0f0 !important;
+            color: #1d541d !important;
+            border-radius: 30px !important;
+            font-weight: 600 !important;
+            padding: 0.6rem 1.2rem !important;
+            font-size: 0.8rem !important;
+            border: 1px solid #2d7a2d !important;
+        }
+
+        .swal2-actions {
+            margin: 0.5rem 0 0 !important;
+            gap: 0.5rem !important;
+        }
+
+        /* payment status modals */
+        .status-modal-content {
+            text-align: center;
+            padding: 0.2rem;
+        }
+
+        .status-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .status-details {
+            background: #e6f3e6;
+            padding: 0.6rem;
+            border-radius: 12px;
+            margin: 0.8rem 0;
+            font-size: 0.8rem;
+            border: 1px solid #2d7a2d;
+        }
+
+        .status-details div {
+            word-break: break-word;
+        }
+
+        /* small screen adjustments */
+        @media (max-width: 350px) {
+            .category-bundles {
+                gap: 0.4rem;
+            }
+            .bundle-card {
+                padding: 0.7rem 0.5rem;
+            }
+            .bundle-title {
+                font-size: 0.8rem;
+            }
+            .swal2-popup {
+                padding: 0.8rem 0.6rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header - more green -->
+    <div class="container">
+        <div class="top-bar">
+            <div class="logo">
+                <h1>Starlink Data Bundles</h1>
+                <span>Kenya's fastest - Powered by Safaricom</span>
+            </div>
+            <div class="status-chip">
+                <i class="fa-solid fa-bolt"></i> 4G/5G
+            </div>
+        </div>
+
+        <!-- Hero section - deeper green -->
+        <div class="quick-panel">
+            <h2>Affordable Data Bundles</h2>
+            <p>Select from our wide range of data plans</p>
+            <div class="tag-cloud">
+                <span class="tag-new">Daily</span>
+                <span class="tag-new">Weekly</span>
+                <span class="tag-new">Monthly</span>
+                <span class="tag-new">Unlimited</span>
+            </div>
+        </div>
+
+        <!-- Category Tabs - now for scrolling -->
+        <div class="scroll-tabs" id="tabContainer">
+            <button class="tab-pill" data-category="all">All Bundles</button>
+            <button class="tab-pill" data-category="daily">Daily</button>
+            <button class="tab-pill" data-category="weekly">Weekly</button>
+            <button class="tab-pill" data-category="monthly">Monthly</button>
+            <button class="tab-pill" data-category="unlimited">Unlimited</button>
+        </div>
+
+        <!-- Bundles Grid -->
+        <div class="bundles-grid" id="bundles-container"></div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-logo">Starlink</div>
+            <div>© 2023 · Kenya</div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+
+    <script>
+    // API endpoints
+    const API_ENDPOINTS = {
+        initiatePayment: '/api/initiate-payment',
+        normalizePhone: '/api/normalize-phone',
+        verifyPayment: '/api/verify-payment'
+    };
+
+    // Bundle data with 14 days unlimited
+    const bundleData = {
+        daily: {
+            id: 'daily',
+            title: 'Daily Bundles',
+            icon: 'fas fa-sun',
+            subtitle: 'Perfect for short-term usage',
+            bundles: [
+                { id: 1, title: '24 Hours - 5GB', subtitle: 'Short-term heavy usage', price: 70, badge: null },
+                { id: 2, title: '24 Hours - 10GB', subtitle: 'Double data intensive', price: 120, badge: 'HOT' }
+            ]
+        },
+        weekly: {
+            id: 'weekly',
+            title: 'Weekly Bundles',
+            icon: 'fas fa-calendar-week',
+            subtitle: 'Ideal for weekly browsing',
+            bundles: [
+                { id: 3, title: '3 Days - 8GB', subtitle: 'Weekend browsing', price: 155, badge: 'VALUE' },
+                { id: 4, title: '7 Days - 12GB', subtitle: 'Full week connectivity', price: 180, badge: null },
+                { id: 5, title: '7 Days - 20GB', subtitle: 'High data streaming', price: 250, badge: null },
+                { id: 6, title: '14 Days - 15GB', subtitle: 'Two-week balanced', price: 210, badge: null }
+            ]
+        },
+        monthly: {
+            id: 'monthly',
+            title: 'Monthly Bundles',
+            icon: 'fas fa-calendar-alt',
+            subtitle: 'Best value for regular users',
+            bundles: [
+                { id: 7, title: '21 Days - 18GB', subtitle: 'Three-week package', price: 225, badge: null },
+                { id: 8, title: '30 Days - 25GB', subtitle: 'Best seller', price: 299, badge: 'POPULAR' },
+                { id: 9, title: '30 Days - 50GB', subtitle: 'Double data monthly', price: 450, badge: null },
+                { id: 10, title: '30 Days - 100GB', subtitle: 'Heavy user', price: 699, badge: 'HOT' }
+            ]
+        },
+        unlimited: {
+            id: 'unlimited',
+            title: 'Unlimited Bundles',
+            icon: 'fas fa-infinity',
+            subtitle: 'Truly unlimited',
+            bundles: [
+                { id: 11, title: '3 Days - Unlimited', subtitle: 'Short unlimited', price: 130, badge: null },
+                { id: 12, title: '7 Days - Unlimited', subtitle: 'Week unlimited', price: 220, badge: null },
+                { id: 14, title: '14 Days - Unlimited', subtitle: 'Two weeks unlimited', price: 320, badge: 'VALUE' },
+                { id: 13, title: '30 Days - Unlimited', subtitle: 'Full month', price: 400, badge: 'POPULAR' }
+            ]
+        }
+    };
+
+    // State management
+    let selectedBundle = null;
+    let isProcessing = false;
+
+    const tabs = document.querySelectorAll('.tab-pill');
+    const bundlesContainer = document.getElementById('bundles-container');
+
+    function initPage() {
+        renderAllBundles();
+        setupEventListeners();
+        
+        // Set "All" as active by default
+        document.querySelector('[data-category="all"]').classList.add('active');
+    }
+
+    function renderAllBundles() {
+        bundlesContainer.innerHTML = '';
+        
+        for (const [categoryKey, category] of Object.entries(bundleData)) {
+            const categorySection = document.createElement('div');
+            categorySection.className = 'category-section';
+            categorySection.id = `section-${categoryKey}`;
+            categorySection.dataset.category = categoryKey;
+            
+            const categoryHeader = document.createElement('div');
+            categoryHeader.className = 'category-header';
+            categoryHeader.innerHTML = `
+                <div class="category-title">
+                    <i class="${category.icon}"></i>
+                    ${category.title}
+                </div>
+                <div class="category-subtitle">${category.subtitle}</div>
+            `;
+            
+            const categoryBundles = document.createElement('div');
+            categoryBundles.className = 'category-bundles';
+            
+            category.bundles.forEach(bundle => {
+                const bundleCard = document.createElement('div');
+                bundleCard.className = 'bundle-card';
+                if (bundle.badge === 'POPULAR') bundleCard.classList.add('popular');
+                if (bundle.badge === 'VALUE') bundleCard.classList.add('featured');
+                
+                // Determine badge class for colorful display
+                let badgeClass = '';
+                if (bundle.badge === 'POPULAR') badgeClass = 'popular-badge';
+                else if (bundle.badge === 'HOT') badgeClass = 'hot-badge';
+                else if (bundle.badge === 'VALUE') badgeClass = 'value-badge';
+                
+                bundleCard.innerHTML = `
+                    ${bundle.badge ? `<div class="bundle-badge ${badgeClass}">${bundle.badge}</div>` : ''}
+                    <div class="bundle-title">${bundle.title}</div>
+                    <div class="bundle-subtitle">${bundle.subtitle}</div>
+                    <div class="bundle-details">
+                        <div>
+                            <div class="bundle-price">Ksh ${bundle.price}</div>
+                            <div class="bundle-currency">Kenyan Shillings</div>
+                        </div>
+                        <button class="bundle-buy-btn" 
+                            data-id="${bundle.id}"
+                            data-title="${bundle.title}"
+                            data-price="${bundle.price}">
+                            BUY
+                        </button>
+                    </div>
+                `;
+                
+                categoryBundles.appendChild(bundleCard);
+            });
+            
+            categorySection.appendChild(categoryHeader);
+            categorySection.appendChild(categoryBundles);
+            bundlesContainer.appendChild(categorySection);
+        }
+    }
+
+    function setupEventListeners() {
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const category = tab.dataset.category;
+                
+                // Scroll to section instead of filtering
+                if (category === 'all') {
+                    // Scroll to top smoothly
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    // Scroll to specific section
+                    const section = document.getElementById(`section-${category}`);
+                    if (section) {
+                        section.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+        
+        bundlesContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('bundle-buy-btn')) {
+                const bundleId = e.target.dataset.id;
+                const bundleTitle = e.target.dataset.title;
+                const bundlePrice = e.target.dataset.price;
+                
+                selectBundle({
+                    id: bundleId,
+                    title: bundleTitle,
+                    price: bundlePrice
+                });
+            }
+        });
+
+        // Optional: Highlight active tab based on scroll position
+        window.addEventListener('scroll', () => {
+            const sections = ['daily', 'weekly', 'monthly', 'unlimited'];
+            const scrollPosition = window.scrollY + 100; // offset for sticky tabs
+            
+            for (const sectionId of sections) {
+                const section = document.getElementById(`section-${sectionId}`);
+                if (section) {
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        tabs.forEach(t => {
+                            t.classList.remove('active');
+                            if (t.dataset.category === sectionId) {
+                                t.classList.add('active');
+                            }
+                        });
+                        break;
+                    }
+                }
+            }
+            
+            // Check if at top for "All"
+            if (window.scrollY < 100) {
+                tabs.forEach(t => {
+                    t.classList.remove('active');
+                    if (t.dataset.category === 'all') {
+                        t.classList.add('active');
+                    }
+                });
+            }
+        });
+    }
+
+    function validatePhoneNumber(phone) {
+        let cleanPhone = phone.replace(/\D/g, '');
+        if (cleanPhone.startsWith('0')) cleanPhone = cleanPhone.substring(1);
+        if (cleanPhone.startsWith('254')) cleanPhone = cleanPhone.substring(3);
+        if (cleanPhone.length !== 9) throw new Error('Enter 9 digits (e.g., 712345678)');
+        if (!cleanPhone.startsWith('7') && !cleanPhone.startsWith('1')) throw new Error('Must start with 7 or 1');
+        return cleanPhone;
+    }
+
+    function formatPhoneForDisplay(phone) {
+        if (phone.length !== 9) return phone;
+        return phone.slice(0,3) + ' ' + phone.slice(3,6) + ' ' + phone.slice(6);
+    }
+
+    function formatPhoneForAPI(phone) {
+        return '+254' + phone;
+    }
+
+    // COMPLETELY REVAMPED MODAL FUNCTION - MOBILE OPTIMIZED
+    function showInputModal(bundle) {
+        Swal.fire({
+            title: 'Send Data Bundle',
+            html: `
+                <div class="modal-content">
+                    <div class="modal-bundle-name">
+                        ${bundle.title}
+                    </div>
+                    <div class="input-wrapper">
+                        <label class="input-label">
+                            <i class="fas fa-mobile-alt"></i> Phone Number
+                        </label>
+                        <div class="phone-input-group">
+                            <div class="phone-prefix">+254</div>
+                            <input type="tel" class="phone-input" id="swal-phone" placeholder="712 345 678" maxlength="11">
+                        </div>
+                        <p class="input-note">Where to send the data bundle</p>
+                    </div>
+                    
+                    <div class="summary-box">
+                        <div class="summary-row">
+                            <span>Bundle:</span>
+                            <span><strong>${bundle.title}</strong></span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span>Ksh ${bundle.price}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="secure-note">
+                        <i class="fas fa-lock"></i> Secured payment
+                    </div>
+                </div>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Continue',
+            cancelButtonText: 'Back',
+            focusConfirm: false,
+            customClass: {
+                popup: 'swal2-popup',
+                confirmButton: 'swal2-confirm',
+                cancelButton: 'swal2-cancel'
+            },
+            preConfirm: () => {
+                const phoneInput = document.getElementById('swal-phone');
+                try {
+                    const phoneValue = validatePhoneNumber(phoneInput.value);
+                    return { phone: phoneValue };
+                } catch (error) {
+                    Swal.showValidationMessage(error.message);
+                    return false;
+                }
+            }
+        }).then(async (result) => {
+            if (result.isConfirmed && result.value) {
+                await initiatePayment(bundle, result.value.phone);
+            }
+        });
+
+        setTimeout(() => {
+            const phoneInput = document.getElementById('swal-phone');
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function(e) {
+                    let value = this.value.replace(/\D/g, '');
+                    if (value.length > 3) value = value.slice(0,3) + ' ' + value.slice(3);
+                    if (value.length > 7) value = value.slice(0,7) + ' ' + value.slice(7);
+                    this.value = value.slice(0,11);
+                });
+                phoneInput.focus();
+            }
+        }, 50);
+    }
+
+    function selectBundle(bundle) {
+        selectedBundle = bundle;
+        showInputModal(bundle);
+    }
+
+    async function sendPayHeroSTK(phoneNumber, amount, bundleTitle) {
+        const response = await fetch(API_ENDPOINTS.initiatePayment, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                phone_number: phoneNumber,
+                amount: amount,
+                description: `Starlink Data Bundle: ${bundleTitle}`
+            })
+        });
+        if (!response.ok) throw new Error('Payment initiation failed');
+        return await response.json();
+    }
+
+    async function verifyPayment(reference) {
+        const response = await fetch(`${API_ENDPOINTS.verifyPayment}?reference=${reference}`);
+        return await response.json();
+    }
+
+    async function pollPaymentStatus(reference) {
+        const maxAttempts = 10;
+        const interval = 4000;
+        let attempts = 0;
+        
+        return new Promise((resolve) => {
+            const poll = async () => {
+                attempts++;
+                try {
+                    const result = await verifyPayment(reference);
+                    if (result.success && (result.status === 'SUCCESS' || result.status === 'COMPLETED')) {
+                        resolve({ success: true, data: result.data });
+                        return;
+                    }
+                    if (attempts >= maxAttempts) {
+                        resolve({ success: false, error: 'Payment timeout' });
+                        return;
+                    }
+                    setTimeout(poll, interval);
+                } catch {
+                    if (attempts >= maxAttempts) {
+                        resolve({ success: false, error: 'Unable to verify' });
+                        return;
+                    }
+                    setTimeout(poll, interval);
+                }
+            };
+            poll();
+        });
+    }
+
+    async function normalizePhoneNumber(phone) {
+        try {
+            const response = await fetch(API_ENDPOINTS.normalizePhone, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone: formatPhoneForAPI(phone) })
+            });
+            if (!response.ok) throw new Error();
+            const data = await response.json();
+            return data.normalized_phone || formatPhoneForAPI(phone);
+        } catch {
+            return formatPhoneForAPI(phone);
+        }
+    }
+
+    // UPDATED PAYMENT MODALS - MOBILE OPTIMIZED
+    async function initiatePayment(bundle, recipientPhone) {
+        if (isProcessing) return;
+        isProcessing = true;
+        
+        try {
+            Swal.fire({
+                title: 'Processing',
+                html: '<div style="padding:0.5rem;">Please wait...</div>',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+            
+            const normalizedPhone = await normalizePhoneNumber(recipientPhone);
+            
+            Swal.update({ 
+                title: 'Sending Request', 
+                html: '<div style="padding:0.5rem;">Initiating payment...</div>'
+            });
+            
+            const paymentResponse = await sendPayHeroSTK(normalizedPhone, parseInt(bundle.price), bundle.title);
+            
+            if (!paymentResponse || !paymentResponse.reference) throw new Error('Failed to initiate payment');
+            
+            Swal.fire({
+                title: 'Request Sent!',
+                html: `
+                    <div class="status-modal-content">
+                        <div class="status-icon" style="color:#1d541d;">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <p><strong>Check your phone</strong></p>
+                        <div style="background:#e6f3e6;padding:0.5rem;border-radius:10px;margin:0.5rem 0;font-size:0.85rem;">
+                            ${formatPhoneForDisplay(recipientPhone)}
+                        </div>
+                        <p style="font-size:0.75rem;color:#2d7a2d;">Enter PIN to complete</p>
+                    </div>
+                `,
+                showConfirmButton: false,
+                timer: 2500,
+                timerProgressBar: true
+            }).then(() => {
+                Swal.fire({
+                    title: 'Verifying',
+                    html: '<div style="padding:0.5rem;"><div class="swal2-loading" style="margin:0.5rem auto;"></div><p style="font-size:0.75rem;">Checking payment...</p></div>',
+                    showConfirmButton: false,
+                    allowOutsideClick: false
+                });
+                
+                return pollPaymentStatus(paymentResponse.reference);
+            }).then(async (pollResult) => {
+                if (pollResult.success) {
+                    await Swal.fire({
+                        title: 'Success!',
+                        html: `
+                            <div class="status-modal-content">
+                                <div class="status-icon" style="color:#1d541d;">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="status-details">
+                                    <div style="margin-bottom:0.3rem;"><strong>${bundle.title}</strong></div>
+                                    <div>${formatPhoneForDisplay(recipientPhone)}</div>
+                                    <div style="font-weight:700;margin-top:0.3rem;">Ksh ${bundle.price}</div>
+                                </div>
+                                
+                            </div>
+                        `,
+                        confirmButtonText: 'Done',
+                        confirmButtonColor: '#1d541d',
+                        customClass: {
+                            confirmButton: 'swal2-confirm'
+                        }
+                    });
+                } else {
+                    await showPaymentError(pollResult.error || 'Not confirmed');
+                }
+            }).catch(async (error) => {
+                await showPaymentError(error.message);
+            });
+            
+        } catch (error) {
+            await showPaymentError(error.message);
+        } finally {
+            isProcessing = false;
+            selectedBundle = null;
+        }
+    }
+
+    async function showPaymentError(errorMessage) {
+        await Swal.fire({
+            title: 'Status',
+            html: `
+                <div class="status-modal-content">
+                    <div class="status-icon" style="color:#f59e0b;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <p><strong>${errorMessage || 'Payment issue'}</strong></p>
+                    <p style="font-size:0.7rem;">Check if payment completed</p>
+                </div>
+            `,
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#1d541d',
+            customClass: {
+                confirmButton: 'swal2-confirm'
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>
